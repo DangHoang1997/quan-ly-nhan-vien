@@ -1,190 +1,309 @@
-// Định nghĩa lớp Nhân viên
-class NhanVien {
-    constructor(taiKhoan, hoTen, email, matKhau, ngayLam, luongCoBan, chucVu, gioLam) {
-        this.taiKhoan = taiKhoan;
-        this.hoTen = hoTen;
-        this.email = email;
-        this.matKhau = matKhau;
-        this.ngayLam = ngayLam;
-        this.luongCoBan = luongCoBan;
-        this.chucVu = chucVu;
-        this.gioLam = gioLam;
-        this.tongLuong = this.tinhTongLuong();
-        this.loaiNhanVien = this.xepLoai();
-    }
+/*
 
-    tinhTongLuong() {
+*/
+let arrNv= [];
+function getmyELe(id){
+    return document.getElementById(id);
+}
+function PerSon(code, ten, email, pass, ngaylam, luongCoBan, chucVu, gioLam) {
+    this.code = code;
+    this.ten = ten;
+    this.email = email;
+    this.pass = pass;
+    this.ngaylam = ngaylam;
+    this.luongCoBan = luongCoBan;
+    this.chucVu = chucVu;
+    this.gioLam = gioLam;
+    // Gọi phương thức để tính lương
+    
+
+    // Định nghĩa phương thức tinhTongLuong
+    this.tinhTongLuong = function() {
         switch (this.chucVu) {
-            case 'Giám đốc':
+            case "Giám đốc":
                 return this.luongCoBan * 3;
-            case 'Trưởng phòng':
+            case "Trưởng phòng":
                 return this.luongCoBan * 2;
-            case 'Nhân viên':
-                return this.luongCoBan;
+            case "Nhân viên":
+                return this.luongCoBan * 1;
             default:
                 return 0;
         }
-    }
-
-    xepLoai() {
-        if (this.gioLam >= 192) return 'Xuất sắc';
-        if (this.gioLam >= 176) return 'Giỏi';
-        if (this.gioLam >= 160) return 'Khá';
-        return 'Trung bình';
-    }
+    };
+    
+    // phương thức xếp loại 
+    this.xepLoai = function(){
+        if(this.gioLam >= 192){return "nhân viên xuất sắc"}
+        if(this.gioLam >= 176){return "nhân viên giỏi"}
+        if(this.gioLam >= 160){return "nhân viên khá"}
+        return "nhân viên trung bình";
+    };
+    
 }
 
-// Mảng lưu trữ danh sách nhân viên
-let danhSachNhanVien = [];
+// Nếu bạn cần thêm phương thức xepLoai, hãy định nghĩa nó tương tự
 
-// Hàm thêm nhân viên mới
-function themNhanVien() {
-    // Lấy thông tin từ form
-    const taiKhoan = document.getElementById('tknv').value;
-    const hoTen = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const matKhau = document.getElementById('password').value;
-    const ngayLam = document.getElementById('datepicker').value;
-    const luongCoBan = parseFloat(document.getElementById('luongCB').value);
-    const chucVu = document.getElementById('chucvu').value;
-    const gioLam = parseFloat(document.getElementById('gioLam').value);
 
-    // Validation
-    if (!validateInput(taiKhoan, hoTen, email, matKhau, ngayLam, luongCoBan, chucVu, gioLam)) {
-        return;
+
+
+getmyELe('btnThemNV').addEventListener('click',function(){
+    // var code = getmyELe('tknv').value;
+    // var ten = getmyELe('name').value;
+    // var email = getmyELe('email').value;
+    // var pass = getmyELe('password').value;
+    // var ngaylam = getmyELe('datepicker').value;
+    // var luongCoBan = getmyELe('luongCB').value*1;
+    // var chucVu = getmyELe('chucvu').value;
+    // var gioLam = getmyELe('gioLam').value;
+
+    // var sv1 = new PerSon(code,ten,email,pass,ngaylam,luongCoBan,chucVu,gioLam);
+    
+       if(validateInput()==true){
+        var sv1 = laythongtintuInput();
+        arrNv.push(sv1);
+        console.log(arrNv);
+        listNv();
+       }
+    
+   
+    
+
+})
+
+// in ra table
+// function listNv(){
+//     var output = "";
+//     for(var i = 0; i < arrNv.length ; i++){
+//             var sv = arrNv[i];
+//             var tring = 
+//             `<tr>
+//             <td>${sv.code}</td>
+//             <td>${sv.ten}</td>
+//             <td>${sv.email}</td>
+//             <td>${sv.ngaylam}</td>
+//             <td>${sv.chucVu}</td>
+//             <td>${sv.tinhTongLuong()}</td>
+//             <td>${sv.xepLoai()}</td>
+//             <td>
+//             <button onclick ="xoaMa('${sv.code}')">xóa</button>
+//             <button onclick ="suaMa('${sv.code}')">sửa</button>
+//             </td>
+//             </tr>`
+//             output +=tring; 
+//     }
+//     getmyELe('tableDanhSach').innerHTML =output;
+// }
+function listNv(data = arrNv) {
+    var output = "";
+    for (var i = 0; i < data.length; i++) {
+        var sv = data[i];
+        var tring = 
+        `<tr>
+        <td>${sv.code}</td>
+        <td>${sv.ten}</td>
+        <td>${sv.email}</td>
+        <td>${sv.ngaylam}</td>
+        <td>${sv.chucVu}</td>
+        <td>${sv.tinhTongLuong()}</td>
+        <td>${sv.xepLoai()}</td>
+        <td>
+        <button onclick ="xoaMa('${sv.code}')">xóa</button>
+        <button onclick ="suaMa('${sv.code}')">sửa</button>
+        </td>
+        </tr>`;
+        output += tring; 
+    }
+    getmyELe('tableDanhSach').innerHTML = output; // Cập nhật bảng hiển thị
+}
+
+// xóa code
+function xoaMa(code){
+    var index = arrNv.findIndex(function(element){
+        return element.code === code;
+    })
+    if(index !==-1){
+        arrNv.splice(index,1);
+        listNv();
+    }
+}
+// sửa code 
+function suaMa(code){
+    var index = arrNv.findIndex(function(element){
+        return element.code === code;
+    })
+    if(index !==-1){
+        var sv = arrNv[index]
+        getmyELe('tknv').value = sv.code;
+        getmyELe('name').value = sv.ten;
+        getmyELe('email').value= sv.email;
+        getmyELe('password').value =  sv.pass;
+        getmyELe('datepicker').value = sv.ngaylam;
+        getmyELe('luongCB').value = sv.luongCoBan
+        getmyELe('chucvu').value = sv.chucVu;
+        getmyELe('gioLam').value = sv.gioLam;
+        // không cho sửa id
+        getmyELe('tknv').setAttribute('readonly', true);
+        
     }
 
-    // Tạo đối tượng nhân viên mới
-    const nhanVien = new NhanVien(taiKhoan, hoTen, email, matKhau, ngayLam, luongCoBan, chucVu, gioLam);
+}
+// hàm cập nhập
+getmyELe( "btnCapNhat").addEventListener("click",function(){
 
-    // Thêm vào danh sách
-    danhSachNhanVien.push(nhanVien);
+    
+     if(validateInput()==true){
+        var sv = laythongtintuInput();
+        console.log(sv);
+        var code = getmyELe('tknv').value;
+        var index = arrNv.findIndex(function(element){
+            return  element.code === code;
+        })
+        if(index !==-1){
+            arrNv[index] = sv;
+            listNv();
+        }
+     }
+    
 
-    // Cập nhật bảng
-    hienThiDanhSachNhanVien();
+})
+// hàm lấy thông tin từ input 
+function laythongtintuInput(){
+    var code = getmyELe('tknv').value;
+    var ten = getmyELe('name').value;
+    var email = getmyELe('email').value;
+    var pass = getmyELe('password').value;
+    var ngaylam = getmyELe('datepicker').value;
+    var luongCoBan = getmyELe('luongCB').value*1;
+    var chucVu = getmyELe('chucvu').value;
+    var gioLam = getmyELe('gioLam').value;
 
-    // Reset form
-    document.getElementById('myModal').reset();
+    var sv1 = new PerSon(code,ten,email,pass,ngaylam,luongCoBan,chucVu,gioLam);;
+
+ return sv1;   
+}
+//hàm viết thêm validation 
+function validateInput() {
+    const code = getmyELe('tknv').value;
+    const ten = getmyELe('name').value;
+    const email = getmyELe('email').value;
+    const pass = getmyELe('password').value;
+    const ngaylam = getmyELe('datepicker').value;
+    const luongCoBan = +getmyELe('luongCB').value;
+    const chucVu = getmyELe('chucvu').value;
+    const gioLam = +getmyELe('gioLam').value;
+
+    // Kiểm tra các điều kiện
+    if (!/^(\d{4,6})$/.test(code)) {
+        alert("Tài khoản phải là 4 - 6 ký số và không để trống");
+        return false;
+    }
+    if (!/^[A-Za-z\s]+$/.test(ten)) {
+        alert("Tên nhân viên phải là chữ và không để trống");
+        return false;
+    }
+    const emailRegex = /^\S+@\S+\.\S+$/;
+    if (!emailRegex.test(email)) {
+        alert("Email phải đúng định dạng và không để trống");
+        return false;
+    }
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,10}$/;
+    if (!passwordRegex.test(pass)) {
+        alert("Mật khẩu phải có 6-10 ký tự với ít nhất 1 ký tự số, 1 ký tự in hoa, 1 ký tự đặc biệt và không để trống");
+        return false;
+    }
+    if (!isValidDate(ngaylam)) {
+        alert("Ngày làm không hợp lệ, định dạng mm/dd/yyyy và không để trống");
+        return false;
+    }
+    if (luongCoBan < 1000000 || luongCoBan > 20000000) {
+        alert("Lương cơ bản phải từ 1.000.000 - 20.000.000 và không để trống");
+        return false;
+    }
+    const validRoles = ["Giám đốc", "Trưởng phòng", "Nhân viên"];
+    if (!validRoles.includes(chucVu)) {
+        alert("Chức vụ phải chọn chức vụ hợp lệ (Giám đốc, Trưởng phòng, Nhân viên)");
+        return false;
+    }
+    if (gioLam < 80 || gioLam > 200) {
+        alert("Số giờ làm trong tháng phải từ 80 - 200 giờ và không để trống");
+        return false;
+    }
+    return true; // Nếu tất cả điều kiện hợp lệ
+}
+function isValidDate(dateString) {
+    const regex = /^(0[1-9]|1[0-2])\/([0-2][0-9]|3[0-1])\/(20[0-9]{2}|19[0-9]{2})$/;
+    return dateString.match(regex);
+}
+
+// tìm kiếm nhân viên 
+
+function timKiemNhanVien() {
+    let searchText = document.getElementById("searchName").value.toLowerCase().trim();
+    let ketQuaTimKiem = danhSachNhanVien.filter(nv => 
+        nv.hoTen.toLowerCase().includes(searchText) ||
+        nv.taiKhoan.toLowerCase().includes(searchText) ||
+        nv.email.toLowerCase().includes(searchText) ||
+        nv.chucVu.toLowerCase().includes(searchText) ||
+        nv.loaiNhanVien.toLowerCase().includes(searchText)
+    );
+    hienThiDanhSach(ketQuaTimKiem);
 }
 
 // Hàm hiển thị danh sách nhân viên
-function hienThiDanhSachNhanVien() {
-    const tbody = document.getElementById('tableDanhSach');
-    tbody.innerHTML = '';
-
-    danhSachNhanVien.forEach((nv, index) => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${nv.taiKhoan}</td>
-            <td>${nv.hoTen}</td>
-            <td>${nv.email}</td>
-            <td>${nv.ngayLam}</td>
-            <td>${nv.chucVu}</td>
-            <td>${nv.tongLuong}</td>
-            <td>${nv.loaiNhanVien}</td>
-            <td>
-                <button onclick="xoaNhanVien(${index})" class="btn btn-danger">Xóa</button>
-                <button onclick="suaNhanVien(${index})" class="btn btn-warning">Sửa</button>
-            </td>
-        `;
-        tbody.appendChild(tr);
-    });
+// Tìm kiếm nhân viên
+function timKiemNhanVien() {
+    let searchText = document.getElementById("searchName").value.toLowerCase().trim();
+    let ketQuaTimKiem = arrNv.filter(nv => 
+        nv.code.toLowerCase().includes(searchText) ||
+        nv.ten.toLowerCase().includes(searchText) ||
+        nv.email.toLowerCase().includes(searchText) ||
+        nv.chucVu.toLowerCase().includes(searchText) ||
+        nv.xepLoai().toLowerCase().includes(searchText) // Tìm kiếm theo loại xếp loại
+    );
+    listNv(ketQuaTimKiem);
 }
 
-// Hàm validation
-function validateInput(taiKhoan, hoTen, email, matKhau, ngayLam, luongCoBan, chucVu, gioLam) {
-    let isValid = true;
+// Thêm event listener cho nút tìm kiếm
+document.getElementById("btnTimNV").addEventListener("click", function(event) {
+    event.preventDefault(); // Ngăn chặn form submit (nếu nút nằm trong form)
+    timKiemNhanVien();
+});
 
-    // Validation logic here
-    // For example:
-    if (taiKhoan.length < 4 || taiKhoan.length > 6) {
-        document.getElementById('tbTKNV').innerText = 'Tài khoản phải từ 4-6 ký số';
-        isValid = false;
+// Thêm event listener cho input để tìm kiếm real-time (tùy chọn)
+document.getElementById("searchName").addEventListener("input", timKiemNhanVien);
+
+// Cập nhật hàm hiển thị danh sách nhân viên
+function listNv(data = arrNv) {
+    let output = "";
+    for (let i = 0; i < data.length; i++) {
+        let sv = data[i];
+        let tring = 
+        `<tr>
+        <td>${sv.code}</td>
+        <td>${sv.ten}</td>
+        <td>${sv.email}</td>
+        <td>${sv.ngaylam}</td>
+        <td>${sv.chucVu}</td>
+        <td>${sv.tinhTongLuong().toLocaleString()}</td>
+        <td>${sv.xepLoai()}</td>
+        <td>
+        <button onclick="xoaMa('${sv.code}')">Xóa</button>
+        <button onclick="suaMa('${sv.code}')">Sửa</button>
+        </td>
+        </tr>`;
+        output += tring; 
     }
-
-    // Add more validation checks for other fields
-
-    return isValid;
+    getmyELe('tableDanhSach').innerHTML = output; // Cập nhật bảng hiển thị
 }
 
-// Hàm xóa nhân viên
-function xoaNhanVien(index) {
-    danhSachNhanVien.splice(index, 1);
-    hienThiDanhSachNhanVien();
+// Hàm khởi tạo ban đầu
+function init() {
+    listNv(); // Hiển thị danh sách nhân viên khi trang được tải
 }
 
-// Hàm sửa nhân viên
-function suaNhanVien(index) {
-    // Populate form with employee data
-    const nv = danhSachNhanVien[index];
-    document.getElementById('tknv').value = nv.taiKhoan;
-    // Populate other fields
+// Gọi hàm khởi tạo khi trang web được load
+window.onload = init;
 
-    // Change button to update
-    document.getElementById('btnThemNV').style.display = 'none';
-    document.getElementById('btnCapNhat').style.display = 'inline-block';
-    document.getElementById('btnCapNhat').onclick = function() {
-        capNhatNhanVien(index);
-    };
-}
 
-// Hàm cập nhật nhân viên
-function capNhatNhanVien(index) {
-    // Get updated info from form
-    const taiKhoan = document.getElementById('tknv').value;
-    // Get other fields
 
-    // Validation
-    if (!validateInput(taiKhoan, hoTen, email, matKhau, ngayLam, luongCoBan, chucVu, gioLam)) {
-        return;
-    }
 
-    // Update employee
-    danhSachNhanVien[index] = new NhanVien(taiKhoan, hoTen, email, matKhau, ngayLam, luongCoBan, chucVu, gioLam);
-
-    // Update table
-    hienThiDanhSachNhanVien();
-
-    // Reset form and buttons
-    document.getElementById('myModal').reset();
-    document.getElementById('btnThemNV').style.display = 'inline-block';
-    document.getElementById('btnCapNhat').style.display = 'none';
-}
-
-// Hàm tìm nhân viên theo loại
-function timNhanVienTheoLoai() {
-    const loai = document.getElementById('searchName').value.toLowerCase();
-    const ketQua = danhSachNhanVien.filter(nv => nv.loaiNhanVien.toLowerCase().includes(loai));
-    hienThiKetQuaTimKiem(ketQua);
-}
-
-// Hàm hiển thị kết quả tìm kiếm
-function hienThiKetQuaTimKiem(ketQua) {
-    const tbody = document.getElementById('tableDanhSach');
-    tbody.innerHTML = '';
-
-    ketQua.forEach((nv, index) => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${nv.taiKhoan}</td>
-            <td>${nv.hoTen}</td>
-            <td>${nv.email}</td>
-            <td>${nv.ngayLam}</td>
-            <td>${nv.chucVu}</td>
-            <td>${nv.tongLuong}</td>
-            <td>${nv.loaiNhanVien}</td>
-            <td>
-                <button onclick="xoaNhanVien(${index})" class="btn btn-danger">Xóa</button>
-                <button onclick="suaNhanVien(${index})" class="btn btn-warning">Sửa</button>
-            </td>
-        `;
-        tbody.appendChild(tr);
-    });
-}
-
-// Event listeners
-document.getElementById('btnThemNV').addEventListener('click', themNhanVien);
-document.getElementById('btnTimNV').addEventListener('click', timNhanVienTheoLoai);
-
-// Initial display
-hienThiDanhSachNhanVien();
