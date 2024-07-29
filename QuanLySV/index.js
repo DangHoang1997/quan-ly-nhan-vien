@@ -93,28 +93,7 @@ getmyELe('btnThemNV').addEventListener('click',function(){
 //     }
 //     getmyELe('tableDanhSach').innerHTML =output;
 // }
-function listNv(data = arrNv) {
-    var output = "";
-    for (var i = 0; i < data.length; i++) {
-        var sv = data[i];
-        var tring = 
-        `<tr>
-        <td>${sv.code}</td>
-        <td>${sv.ten}</td>
-        <td>${sv.email}</td>
-        <td>${sv.ngaylam}</td>
-        <td>${sv.chucVu}</td>
-        <td>${sv.tinhTongLuong()}</td>
-        <td>${sv.xepLoai()}</td>
-        <td>
-        <button onclick ="xoaMa('${sv.code}')">xóa</button>
-        <button onclick ="suaMa('${sv.code}')">sửa</button>
-        </td>
-        </tr>`;
-        output += tring; 
-    }
-    getmyELe('tableDanhSach').innerHTML = output; // Cập nhật bảng hiển thị
-}
+
 
 // xóa code
 function xoaMa(code){
@@ -183,48 +162,42 @@ function laythongtintuInput(){
 }
 //hàm viết thêm validation 
 function validateInput() {
-    const code = getmyELe('tknv').value;
-    const ten = getmyELe('name').value;
-    const email = getmyELe('email').value;
-    const pass = getmyELe('password').value;
-    const ngaylam = getmyELe('datepicker').value;
-    const luongCoBan = +getmyELe('luongCB').value;
-    const chucVu = getmyELe('chucvu').value;
-    const gioLam = +getmyELe('gioLam').value;
+    laythongtintuInput();
+    var i = arrNv[index];
 
     // Kiểm tra các điều kiện
-    if (!/^(\d{4,6})$/.test(code)) {
+    if (!/^(\d{4,6})$/.test(i.code)) {
         alert("Tài khoản phải là 4 - 6 ký số và không để trống");
         return false;
     }
-    if (!/^[A-Za-z\s]+$/.test(ten)) {
+    if (!/^[A-Za-z\s]+$/.test(i.ten)) {
         alert("Tên nhân viên phải là chữ và không để trống");
         return false;
     }
     const emailRegex = /^\S+@\S+\.\S+$/;
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(i.email)) {
         alert("Email phải đúng định dạng và không để trống");
         return false;
     }
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,10}$/;
-    if (!passwordRegex.test(pass)) {
+    if (!passwordRegex.test(i.pass)) {
         alert("Mật khẩu phải có 6-10 ký tự với ít nhất 1 ký tự số, 1 ký tự in hoa, 1 ký tự đặc biệt và không để trống");
         return false;
     }
-    if (!isValidDate(ngaylam)) {
+    if (!isValidDate(i.ngaylam)) {
         alert("Ngày làm không hợp lệ, định dạng mm/dd/yyyy và không để trống");
         return false;
     }
-    if (luongCoBan < 1000000 || luongCoBan > 20000000) {
+    if (i.luongCoBan < 1000000 || i.luongCoBan > 20000000) {
         alert("Lương cơ bản phải từ 1.000.000 - 20.000.000 và không để trống");
         return false;
     }
     const validRoles = ["Giám đốc", "Trưởng phòng", "Nhân viên"];
-    if (!validRoles.includes(chucVu)) {
+    if (!validRoles.includes(i.chucVu)) {
         alert("Chức vụ phải chọn chức vụ hợp lệ (Giám đốc, Trưởng phòng, Nhân viên)");
         return false;
     }
-    if (gioLam < 80 || gioLam > 200) {
+    if (i.gioLam < 80 || i.gioLam > 200) {
         alert("Số giờ làm trong tháng phải từ 80 - 200 giờ và không để trống");
         return false;
     }
@@ -237,17 +210,7 @@ function isValidDate(dateString) {
 
 // tìm kiếm nhân viên 
 
-function timKiemNhanVien() {
-    let searchText = document.getElementById("searchName").value.toLowerCase().trim();
-    let ketQuaTimKiem = danhSachNhanVien.filter(nv => 
-        nv.hoTen.toLowerCase().includes(searchText) ||
-        nv.taiKhoan.toLowerCase().includes(searchText) ||
-        nv.email.toLowerCase().includes(searchText) ||
-        nv.chucVu.toLowerCase().includes(searchText) ||
-        nv.loaiNhanVien.toLowerCase().includes(searchText)
-    );
-    hienThiDanhSach(ketQuaTimKiem);
-}
+
 
 // Hàm hiển thị danh sách nhân viên
 // Tìm kiếm nhân viên
