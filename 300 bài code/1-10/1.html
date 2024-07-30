@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let array = [1, 2, 3, 4, 5];
+      let target = 6;
+      function twoSum(array, target) {
+        let hashmap = {};
+        for (let i = 0; i < array.length; i++) {
+          let nededvalue = target - array[i];
+          if (hashmap[nededvalue] !== undefined) {
+            return [hashmap[nededvalue], i];
+          }
+          hashmap[array[i]] = i;
+        }
+      }
+      console.log(twoSum(array, target)); // Output: [0, 1]
+    </script>
+  </body>
+</html>

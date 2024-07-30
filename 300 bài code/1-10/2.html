@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function isvalid(s){
+            const stack = [];
+            const brackmap = {
+                "(" :")",
+                "{":"}",
+                "[":"]"
+            };
+            for(let char of s){
+                if(brackmap.hashasOwnProperty(char)){
+                    stack.length ===0 ||stack[stack.length-1]!==brackmap(char){
+                        return false;
+                    }
+                    stack.pop();
+                }else{
+                    stack.push(char);
+                }
+            }
+            return stack.length ===0;
+        }
+    </script>
+</body>
+</html>
